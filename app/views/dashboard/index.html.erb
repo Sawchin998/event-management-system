@@ -1,0 +1,52 @@
+<div class="dashboard">
+  <%= link_to "Log Out", destroy_user_session_path, data: { turbo_method: :delete }%>
+  <div>
+    <%= link_to 'Go to your events', events_path %>
+  </div>
+
+  <h1>Dashboard</h1>
+  <div class="events">
+    <div class="scroll-container">
+      <h2>Upcoming Events</h2>
+      <% @upcoming_events.each do |event| %>
+        <p><%= link_to event.title, event %></p>
+      <% end %>
+    </div>
+
+    <div class="scroll-container" >
+      <h2>Registered Events</h2>
+      <% @registered_events.each do |event| %>
+        <h3><strong>title:</strong> <%= event.title %></h3>
+        <p><strong>Date:</strong> <%= event.date %></p>
+        <p><strong>Location:</strong> <%= event.location %></p>
+        <p><strong>Category:</strong> <%= event.category %></p>
+        <p><strong>Description:</strong> <%= event.description %></p>
+        <p>
+          <strong>Attendees:</strong>
+          <% event.users.each do |user| %>
+            <p><%= "Name: #{user.name}  -----   Email: #{user.email} "%></p>
+          <% end %>
+        </p>
+        <p>--------------------------------<p>
+      <% end %>
+    </div>
+
+    <div class="scroll-container" >
+      <h2> All Events </h2>
+      <%= form_with(url: root_path, method: :get) do |form| %>
+        <%= form.text_field :search_by_title, value: params[:search_by_title], placeholder: 'Search By Title' %>
+        <%= form.select :category, Event.distinct.pluck(:category), { include_blank: 'Select Category' }, selected: params[:category] %>
+        <%= form.text_field :location, value: params[:location], placeholder: 'Location' %>
+        <%= form.submit 'Filter' %>
+      <% end %>
+
+      <% @events.each do |event| %>
+        <p><%= link_to event.title, event %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+
+

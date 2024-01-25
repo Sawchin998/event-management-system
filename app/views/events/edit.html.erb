@@ -1,0 +1,23 @@
+<%= form_with(model: @event) do |f|  %>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title, autofocus: true %>
+  </div>
+  <div>
+    <%= f.label :category %>
+    <%= f.select :category, Event.categories.keys.map { |category| [category.humanize, category] } %>
+  </div>
+  <div>
+    <%= f.label :date %>
+    <%= f.date_field :date%>
+  </div>
+  <div>
+    <%= f.label :location %>
+    <%= f.text_field :location, autofocus: true %>
+  </div>
+  <div>
+    <%= f.label :description %>
+    <%= f.text_field :description, autofocus: true %>
+  </div>
+  <%= f.submit  "Update Event" %>
+<% end %>

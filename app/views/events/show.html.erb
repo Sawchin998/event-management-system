@@ -1,0 +1,17 @@
+<h3><strong>title:</strong> <%= @event.title %></h3>
+<p><strong>Date:</strong> <%= @event.date %></p>
+<p><strong>Location:</strong> <%= @event.location %></p>
+<p><strong>Category:</strong> <%= @event.category %></p>
+<p><strong>Description:</strong> <%= @event.description %></p>
+<% if @event.user_id == current_user.id %>
+  <p><strong>Your event</p>
+<% elsif current_user.registered_events.include?(@event) %>
+  <p><strong>Already registered</p>
+<% else %>
+  <%= form_with(model: @registration, url: event_registrations_path(@event), local: true) do |f|  %>
+    <%= f.hidden_field :event_id, value: @event.id %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.submit "Register for the Event" %>
+  <% end %>
+<% end %>
+
